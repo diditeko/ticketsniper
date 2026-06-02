@@ -1,0 +1,35 @@
+{
+  "name": "ticketsniper",
+  "version": "1.0.0",
+  "description": "Automated Ticket Buyer for tiket.com — Millisecond Queue Entry",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node server.js",
+    "bot": "node bot.js",
+    "login": "node session.js",
+    "check-session": "node session.js --check",
+    "test-fill": "node checkout.js --test",
+    "scan": "node scan.js",
+    "server": "node server.js",
+    "dev": "concurrently \"node server.js\" \"cd dashboard && npm run dev\"",
+    "install-browser": "npx playwright install chromium",
+    "setup": "npm install && npm run install-browser",
+    "test-queue": "node test-queue.js"
+  },
+  "dependencies": {
+    "playwright": "^1.44.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ws": "^8.17.0",
+    "node-notifier": "^10.0.1",
+    "cors": "^2.8.5",
+    "chalk": "^4.1.2",
+    "dayjs": "^1.11.11"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

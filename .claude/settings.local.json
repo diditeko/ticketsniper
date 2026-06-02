@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(cp .env.example .env)",
+      "Bash(node -e \"require\\('dotenv'\\).config\\(\\); const logger = require\\('./logger'\\); logger.info\\('Logger OK'\\); logger.success\\('All imports OK'\\);\")",
+      "Bash(npm run *)",
+      "Bash(node -e \"require\\('./checkout.js'\\); console.log\\('checkout.js OK'\\)\")",
+      "Bash(node *)",
+      "Bash(pkill -f \"node server.js\")",
+      "Bash(pkill -f \"vite\")",
+      "Bash(lsof -ti:3001)",
+      "Bash(xargs kill *)",
+      "Bash(lsof -iTCP -sTCP:LISTEN -P)",
+      "Bash(awk '{print $2}')",
+      "Bash(kill -9 79287)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(curl -s http://localhost:3001/api/profile)",
+      "Bash(curl -s http://localhost:3001/api/status)"
+    ]
+  }
+}
