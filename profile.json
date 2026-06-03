@@ -1,25 +1,25 @@
 {
   "pemesan": {
     "title": "Tuan",
-    "nama": "Didit eko setyo",
-    "phone": "085216313851",
-    "email": "didit42329@gmail.com",
+    "nama": "namamu",
+    "phone": "08...",
+    "email": "bosss@gmail.com",
     "negara": "Indonesia"
   },
   "pengunjung": [
     {
       "same_as_pemesan": true,
       "title": "Tuan",
-      "nama": "Didit eko setyo",
-      "phone": "085216313851",
-      "email": "didit42329@gmail.com",
+      "nama": "namam2222",
+      "phone": "08...",
+      "email": "boss@gmail.com",
       "ktp": "5204080605980006"
     },
     {
       "same_as_pemesan": false,
       "title": "Tuan",
       "nama": "boss taurus",
-      "phone": "085216313851",
+      "phone": "08....",
       "email": "pengunjung2@gmail.com",
       "ktp": "520408060597005"
     }
