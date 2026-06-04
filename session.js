@@ -95,7 +95,7 @@ async function checkSession() {
   }
 }
 
-async function getLaunchContext(headless = false) {
+async function getLaunchContext(headless = true) {
   const sessionExists = fs.existsSync(SESSION_PATH);
   if (!sessionExists) {
     throw new Error('No session found. Run: npm run login');
