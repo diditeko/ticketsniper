@@ -127,6 +127,8 @@ async function waitInQueue(page, broadcast) {
     return (
       body.includes("You're in line") ||
       body.includes('people in front of you') ||
+      body.includes('Ticket Sales Will Start Soon') ||
+      body.includes('Arriving early offers no advantage') ||
       url.includes('queue') ||
       url.includes('waiting-room') ||
       url.includes('antrian')
@@ -187,7 +189,9 @@ async function waitInQueue(page, broadcast) {
           !url.includes('waiting-room') &&
           !url.includes('antrian') &&
           !body.includes("You're in line") &&
-          !body.includes('people in front of you')
+          !body.includes('people in front of you') &&
+          !body.includes('Ticket Sales Will Start Soon') &&
+          !body.includes('Arriving early offers no advantage') 
         );
       },
       { timeout: 60 * 60 * 1000, polling: 2000 }
