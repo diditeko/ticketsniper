@@ -95,12 +95,12 @@ async function checkSession() {
   }
 }
 
-async function getLaunchContext(headless = true) {
+async function getLaunchContext(headless = false) {
   const sessionExists = fs.existsSync(SESSION_PATH);
   if (!sessionExists) {
     throw new Error('No session found. Run: npm run login');
   }
-
+  
   const context = await chromium.launchPersistentContext(SESSION_PATH, {
     headless,
     viewport: { width: 1280, height: 900 },

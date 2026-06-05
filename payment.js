@@ -40,7 +40,7 @@ async function clickLihatSemua(page) {
 
   // Playwright locator fallback with partial match
   try {
-    await page.locator('text=/lihat semua/i').first().click({ timeout: 4000 });
+    await page.locator('text=/lihat semua/i').first().click({ timeout: 5000 });
     logger.success('Clicked "Lihat semua" via locator');
     return true;
   } catch (_) {}

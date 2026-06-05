@@ -3,3 +3,4 @@ session/
 logs/
 .env
 .claude/
+profile.json

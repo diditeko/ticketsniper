@@ -154,17 +154,16 @@ async function selectCategory(page) {
       if (t === 'PILIH' || t === 'SELECT') pilihOnly.push(btn);
     }
 
-    const target = pilihOnly[match.index];
-    if (!target) {
-      logger.warn(`Button index ${match.index} out of range`);
-      return false;
-    }
-
     const containerText = allCategories[match.index]?.text?.slice(0, 80) || '';
     logger.success(`Match found (strategy ${match.strategy}): "${containerText}"`);
-    await target.scrollIntoViewIfNeeded();
-    await target.click();
-    logger.success(`Clicked "Pilih" for "${name}"`);
+
+    // Re-query fresh locator to avoid stale element reference
+    const freshButtons = page.locator('button, [role="button"]').filter({ hasText: /^(PILIH|SELECT)$/i });
+    const freshTarget = freshButtons.nth(match.index);
+
+    await freshTarget.scrollIntoViewIfNeeded();
+    await freshTarget.click();
+        logger.success(`Clicked "Pilih" for "${name}"`);
     await page.waitForTimeout(700);
     return true;
   }
@@ -263,16 +262,22 @@ async function setQuantity(page) {
 async function clickPesan(page) {
   logger.step('Clicking "Pesan" to proceed to checkout...');
 
-  const pesanBtn =
-    await page.$('button:has-text("Pesan")') ||
-    await page.$('button:has-text("Order")') ||
-    await page.$('[data-testid="btn-pesan"]');
+  // Tunggu sampai tombol benar-benar muncul di DOM
+  // maksimal 10 detik — kalau tidak muncul baru throw error
+  const pesanBtn = await page.waitForSelector(
+    'button:has-text("Pesan"), button:has-text("Order"), [data-testid="btn-pesan"]',
+    { timeout: 10000 }
+  ).catch(() => null);
 
   if (!pesanBtn) {
-    throw new Error('"Pesan" button not found on category page');
+    throw new Error('"Pesan" button not found after 10s — accordion may not have opened');
   }
 
-  await pesanBtn.click();
+  // Pakai locator fresh saat klik agar tidak stale
+  await page.locator(
+    'button:has-text("Pesan"), button:has-text("Order")'
+  ).first().click();
+
   logger.success('Clicked "Pesan" — waiting for checkout form...');
   await page.waitForLoadState('domcontentloaded');
 }
