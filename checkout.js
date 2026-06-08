@@ -524,6 +524,7 @@ async function submitCheckout(page) {
 
   try {
     await page.waitForURL((url) => url.toString() !== urlBefore, { timeout: 10000 });
+    await page.waitForTimeout(2000);
     logger.success('Navigated to next page.');
   } catch (_) {
     await page.waitForLoadState('domcontentloaded');
