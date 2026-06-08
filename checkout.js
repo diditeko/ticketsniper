@@ -519,7 +519,13 @@ async function submitCheckout(page) {
       if (errors.length) logger.warn(`  Validation errors: ${errors.join(' | ')}`);
     } catch (_) {}
   }
-
+  // Sebelum klik Lanjutkan pembayaran
+  await page.screenshot({ 
+    path: './logs/before_lanjutkan.png', 
+    fullPage: true 
+  });
+  logger.info('Screenshot saved: before_lanjutkan.png');
+  
   await btn.click();
 
   try {
