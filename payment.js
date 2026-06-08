@@ -63,7 +63,7 @@ async function clickPaymentInModal(page, label) {
   } catch (_) {
     logger.warn('Modal heading not detected — trying to find payment option anyway');
   }
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(400);
 
   // Click the card whose text matches the payment label
   // The card may contain an image + text, so match by partial text

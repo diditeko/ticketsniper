@@ -324,7 +324,7 @@ async function fillOneVisitor(page, visitor, idx) {
     }, idx);
 
     logger.info(`  Toggle: ${result}`);
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(500);
     return;
   }
 
