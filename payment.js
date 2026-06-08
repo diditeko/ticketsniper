@@ -35,6 +35,7 @@ async function clickLihatSemua(page) {
 
   if (found) {
     logger.success(`Clicked "${found}"`);
+    await page.waitForTimeout(2000);
     return true;
   }
 
@@ -42,6 +43,7 @@ async function clickLihatSemua(page) {
   try {
     await page.locator('text=/lihat semua/i').first().click({ timeout: 5000 });
     logger.success('Clicked "Lihat semua" via locator');
+    await page.waitForTimeout(2000);
     return true;
   } catch (_) {}
 

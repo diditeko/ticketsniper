@@ -164,7 +164,7 @@ async function selectCategory(page) {
     await freshTarget.scrollIntoViewIfNeeded();
     await freshTarget.click();
         logger.success(`Clicked "Pilih" for "${name}"`);
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(1500);
     return true;
   }
 
@@ -437,7 +437,15 @@ async function fillCheckoutForm(page, profile) {
   const visitors = normalizeVisitors(profile);
 
   await page.waitForSelector('input', { timeout: 20000 });
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(1500);
+
+  // Tunggu nama input spesifik muncul sebelum mulai isi
+  await page.waitForSelector(
+    '[placeholder*="ama lengkap"], [placeholder*="ull name"]',
+    { timeout: 10000 }
+  ).catch(() => null);
+
+  await page.waitForTimeout(1000);
 
   // --- Pemesan section ---
 
@@ -461,6 +469,7 @@ async function fillCheckoutForm(page, profile) {
   if (namaInput) {
     await namaInput.click({ clickCount: 3 });
     await namaInput.fill(pemesan.nama);
+    await page.waitForTimeout(500); 
   }
 
   // 3. Nomor ponsel (first match on page = pemesan)
@@ -470,6 +479,7 @@ async function fillCheckoutForm(page, profile) {
   if (phoneInput) {
     await phoneInput.click({ clickCount: 3 });
     await phoneInput.fill(phone);
+    await page.waitForTimeout(500); 
   }
 
   // --- Visitor (pengunjung) sections ---
