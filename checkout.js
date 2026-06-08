@@ -263,7 +263,6 @@ async function clickPesan(page) {
   logger.step('Clicking "Pesan" to proceed to checkout...');
 
   // Tunggu sampai tombol benar-benar muncul di DOM
-  // maksimal 10 detik — kalau tidak muncul baru throw error
   const pesanBtn = await page.waitForSelector(
     'button:has-text("Pesan"), button:has-text("Order"), [data-testid="btn-pesan"]',
     { timeout: 10000 }
@@ -273,13 +272,26 @@ async function clickPesan(page) {
     throw new Error('"Pesan" button not found after 10s — accordion may not have opened');
   }
 
-  // Pakai locator fresh saat klik agar tidak stale
-  await page.locator(
-    'button:has-text("Pesan"), button:has-text("Order")'
-  ).first().click();
-
-  logger.success('Clicked "Pesan" — waiting for checkout form...');
-  await page.waitForLoadState('domcontentloaded');
+  // Klik + tunggu navigasi bersamaan agar tidak miss navigation event
+  try {
+    await Promise.all([
+      page.waitForNavigation({ 
+        waitUntil: 'domcontentloaded', 
+        timeout: 15000 
+      }),
+      page.locator('button:has-text("Pesan"), button:has-text("Order")').first().click(),
+    ]);
+    logger.success('Clicked "Pesan" — checkout form loaded!');
+  } catch (e) {
+    // Kalau navigasi timeout, cek apakah URL sudah berubah
+    const url = page.url();
+    if (url.includes('checkout') || url.includes('order') || url.includes('booking')) {
+      logger.success('Clicked "Pesan" — navigated to checkout (via URL check)');
+    } else {
+      logger.warn('Pesan clicked but navigation unclear — continuing anyway...');
+      await page.waitForTimeout(2000);
+    }
+  }
 }
 
 /**
