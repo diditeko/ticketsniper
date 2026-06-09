@@ -104,8 +104,8 @@ async function pollForButton(page, broadcast) {
 
     setTimeout(() => {
       clearInterval(interval);
-      reject(new Error('Timeout: buy button not found after 5 minutes'));
-    }, 5 * 60 * 1000);
+      reject(new Error('Timeout: buy button not found after 30 minutes'));
+    }, 30 * 60 * 1000);
   });
 }
 
@@ -127,6 +127,7 @@ async function waitInQueue(page, broadcast) {
     return (
       body.includes("You're in line") ||
       body.includes('people in front of you') ||
+      body.includes('people are in front of you') ||
       body.includes('Ticket Sales Will Start Soon') ||
       body.includes('Arriving early offers no advantage') ||
       url.includes('queue') ||
@@ -136,6 +137,9 @@ async function waitInQueue(page, broadcast) {
   });
 
   if (!onQueue) return; // not a queue page, nothing to do
+
+  // ← TAMBAH DI SINI
+  page.setDefaultTimeout(60 * 60 * 1000);
 
   logger.info('─────────────────────────────────────────');
   logger.info('STEP 1B — Virtual queue detected');
@@ -189,6 +193,7 @@ async function waitInQueue(page, broadcast) {
           !url.includes('waiting-room') &&
           !url.includes('antrian') &&
           !body.includes("You're in line") &&
+          !body.includes('people are in front of you') && 
           !body.includes('people in front of you') &&
           !body.includes('Ticket Sales Will Start Soon') &&
           !body.includes('Arriving early offers no advantage') 

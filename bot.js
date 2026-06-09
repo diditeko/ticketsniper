@@ -68,10 +68,14 @@ async function run() {
     logger.success('Event page loaded and ready.');
     emit({ type: 'status', step: 'preloaded', message: 'Event page loaded — waiting for sale time...' });
 
+    
     // Phase 3: Wait for exact sale time, then poll
     await waitForSaleTime();
     emit({ type: 'status', step: 'firing', message: 'FIRE MODE — polling for buy button...' });
 
+    // STEP 1B — Handle "You're in line!" virtual queue page (up to 1 hour wait)
+    await waitInQueue(page, _broadcast);
+    
     const buyBtn = await pollForButton(page, _broadcast);
 
     // Phase 4: Click buy button (queue entry)
@@ -81,8 +85,6 @@ async function run() {
     await page.waitForLoadState('domcontentloaded');
     logger.success('Buy button clicked — in queue / on event detail page.');
 
-    // STEP 1B — Handle "You're in line!" virtual queue page (up to 1 hour wait)
-    await waitInQueue(page, _broadcast);
 
     // Re-check if we need to click "Beli tiket sekarang" again on event detail
     try {
